@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  database:
+    image: mongo
+    container_name: database_container
+    restart: always
+    ports:
+      - ${MONGO_PORT}:27019
+    volumes:
+      - manogo_data:/data/mongo
+
+  app:
+    build: .
+    ports:
+      - ${API_PORT}:3000
+    volumes:
+      - .:/home/service
+    depends_on:
+      - database
+
+volumes:
+  manogo_data:
