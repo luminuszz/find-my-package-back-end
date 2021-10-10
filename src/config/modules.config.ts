@@ -3,6 +3,7 @@ import { MongooseModuleAsyncOptions } from '@nestjs/mongoose';
 import { GqlModuleAsyncOptions } from '@nestjs/graphql';
 import { formatterErrors } from '../shared/gql.exception.filter';
 import { JwtModuleOptions } from '@nestjs/jwt';
+import { SharedBullAsyncConfiguration } from '@nestjs/bull';
 
 export const configModule: ConfigModuleOptions = {
   isGlobal: true,
@@ -41,4 +42,15 @@ export const jwtConfigModule: JwtModuleOptions = {
   signOptions: {
     expiresIn: '3d',
   },
+};
+
+export const bullModuleConfig: SharedBullAsyncConfiguration = {
+  useFactory: (configService: ConfigService<Environments>) => ({
+    redis: {
+      host: configService.get('REDIS_HOST'),
+      port: configService.get('REDIS_PORT'),
+    },
+  }),
+
+  inject: [ConfigService],
 };

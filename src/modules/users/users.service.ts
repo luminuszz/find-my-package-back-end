@@ -14,8 +14,6 @@ export class UsersService {
   ) {}
 
   async create(createUser: CreateUserDTO): Promise<User> {
-    console.log({ model: this.usersModel });
-
     const verifyUserExists = await this.usersModel
       .findOne({
         email: createUser.email,
@@ -31,14 +29,18 @@ export class UsersService {
   }
 
   async getAllUsers(): Promise<User[]> {
-    return this.usersModel.find();
+    return this.usersModel.find().populate('packages').exec();
   }
 
   async findUserByEmail(email: string): Promise<User> {
-    return this.usersModel.findOne({ email }).exec();
+    return this.usersModel.findOne({ email }).populate('packages').exec();
   }
 
   async findUserById(id: string): Promise<User> {
-    return this.usersModel.findById(id).exec();
+    return this.usersModel.findById(id).populate('packages').exec();
+  }
+
+  async updateUser(userId: string, updatedUser: Partial<User>) {
+    return this.usersModel.findByIdAndUpdate(userId, { ...updatedUser });
   }
 }

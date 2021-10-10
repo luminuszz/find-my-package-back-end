@@ -10,6 +10,15 @@ services:
     volumes:
       - manogo_data:/data/mongo
 
+  redis_database:
+    image: redis
+    container_name: redis_container
+    restart: always
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - redis_data:/data/redis
+
   app:
     build: .
     ports:
@@ -18,6 +27,8 @@ services:
       - .:/home/service
     depends_on:
       - database
+      - redis_database
 
 volumes:
   manogo_data:
+  redis_data:

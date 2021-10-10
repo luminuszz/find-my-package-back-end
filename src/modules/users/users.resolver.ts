@@ -19,8 +19,17 @@ export class UsersResolver {
 
   @Query(() => [User])
   async getAllUsers(@CurrentUser() user: User): Promise<User[]> {
-    console.log({ user });
+    const users = await this.usersService.getAllUsers();
 
-    return this.usersService.getAllUsers();
+    return users;
+  }
+
+  @Query(() => User)
+  async me(@CurrentUser() user: User): Promise<User> {
+    const response = await this.usersService.findUserById(user._id);
+
+    console.log({ response });
+
+    return response;
   }
 }
