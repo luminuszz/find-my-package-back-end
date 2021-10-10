@@ -13,6 +13,7 @@ import { DeliveryServiceProvider } from '../providers/delivery/core/delevery-ser
 import { PackageService } from '../package.service';
 import { NotificationsService } from '../../notifications/notifications.service';
 import { Package } from '../package.entity';
+import { Events } from '../../notifications/events/events.enum';
 
 type Payload = Package;
 
@@ -58,8 +59,16 @@ export class UpdatePackageStatusJob {
   @OnQueueCompleted()
   async triggerNotification(job: Job<Payload>) {
     if (job.data) {
+      const { status, code } = job.data;
+
       this.logger.debug('enviando notifição');
-      this.notificationService.sendNotification(job.data);
+      this.notificationService.createNotification(
+        {
+          description: status,
+          title: `O pacote ${code} mudou o status`,
+        },
+        Events.packageUpdatedTrack,
+      );
     }
   }
 

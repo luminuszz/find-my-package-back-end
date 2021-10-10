@@ -1,4 +1,4 @@
-export enum PackageEvents {
+export enum Events {
   packAgeCreated = 'package.created',
   packageUpdatedTrack = 'package.updatedTrack',
 }

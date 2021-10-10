@@ -17,6 +17,9 @@ class Notification extends mongoose.Document {
   @Prop()
   origin: string;
 
+  @Prop()
+  isSend: boolean;
+
   createdAt: Date;
 
   updatedAt: Date;
