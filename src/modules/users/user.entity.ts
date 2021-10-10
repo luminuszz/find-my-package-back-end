@@ -32,9 +32,9 @@ class User extends mongoose.Document {
   @Field(() => GraphQLISODateTime)
   updatedAt: Date;
 
-  @Prop({ required: true })
-  @Field({ nullable: false })
-  appToken: string;
+  @Prop({ required: false })
+  @Field({ nullable: true })
+  appToken?: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Package' }] })
   @Field(() => [Package])
