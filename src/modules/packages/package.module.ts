@@ -10,7 +10,7 @@ import { NotificationsModule } from '../notifications/notifications.module';
 import { BullModule } from '@nestjs/bull';
 import { PackageQueue } from './enums/queues.enum';
 import { jobs } from './jobs';
-import { PackageTasks } from './package.tasks';
+import { PackageTasks } from './tasks/package.tasks';
 
 @Module({
   imports: [

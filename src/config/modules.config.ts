@@ -22,7 +22,7 @@ export const configMongooseModule: MongooseModuleAsyncOptions = {
 };
 
 export const graphQLModuleConfig: GqlModuleAsyncOptions = {
-  useFactory: (configService: ConfigService<Environments>) => {
+  useFactory: async (configService: ConfigService<Environments>) => {
     const isDev = configService.get('NODE_ENV') === 'dev';
 
     return {

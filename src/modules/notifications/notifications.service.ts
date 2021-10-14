@@ -8,6 +8,8 @@ import { InjectModel } from '@nestjs/mongoose';
 type NotificationPayload = {
   title: string;
   description?: string;
+  identify: string;
+  to: string;
 };
 
 @Injectable()
@@ -24,9 +26,13 @@ export class NotificationsService {
         title: payload.title,
         description: payload.description || null,
         origin: event,
+        to: payload.to,
+        identify: payload.identify,
       })
-      .then((newNotification) => {
-        this.eventEmitter.emit(event, newNotification);
+      .then((notification) => {
+        console.log({ notification });
+
+        this.eventEmitter.emit(event, notification);
       });
   }
 

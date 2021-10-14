@@ -4,6 +4,7 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { Public } from '../auth/decorators/isPublic.decorator';
 import { CurrentUser } from '../auth/decorators/user.decorator';
+import { UpdateUserDTO } from './dto/update-user.dto';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -15,6 +16,13 @@ export class UsersResolver {
     return this.usersService.create({
       ...createUser,
     });
+  }
+
+  @Mutation(() => User)
+  async updateUser(
+    @Args('updatedUser') { userId, ...updateUser }: UpdateUserDTO,
+  ) {
+    return this.usersService.updateUser(userId, updateUser);
   }
 
   @Query(() => [User])

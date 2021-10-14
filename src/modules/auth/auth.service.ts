@@ -13,7 +13,7 @@ export class AuthService {
     private readonly JwtService: JwtService,
   ) {}
 
-  async login(email: string, password: string) {
+  async login(email: string, password: string, appToken?: any) {
     const verifyUser = await this.usersService.findUserByEmail(email);
 
     if (!verifyUser) throw new BadRequestException('invalid credentials');
@@ -24,6 +24,10 @@ export class AuthService {
     );
 
     if (!isValidPassword) throw new BadRequestException('invalid credentials');
+
+    if (appToken) {
+      await this.usersService.updateUser(verifyUser._id, { appToken });
+    }
 
     const payload: UserPayload = {
       id: verifyUser._id,

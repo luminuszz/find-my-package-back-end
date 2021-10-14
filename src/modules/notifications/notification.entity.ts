@@ -20,6 +20,12 @@ class Notification extends mongoose.Document {
   @Prop()
   isSend: boolean;
 
+  @Prop()
+  identify: string;
+
+  @Prop()
+  to: string;
+
   createdAt: Date;
 
   updatedAt: Date;

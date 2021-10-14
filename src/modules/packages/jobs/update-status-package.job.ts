@@ -44,10 +44,19 @@ export class UpdatePackageStatusJob {
         eventHour: response.hour,
       });
 
-      return {
-        code: response.code,
-        message: response.status,
-      };
+      const { status, code, owner } = data;
+
+      this.logger.debug('enviando notifição');
+
+      this.notificationService.createNotification(
+        {
+          description: status,
+          title: `O pacote ${code} mudou o status`,
+          identify: owner._id,
+          to: owner.appToken.data,
+        },
+        Events.packageUpdatedTrack,
+      );
     }
   }
 
@@ -59,16 +68,6 @@ export class UpdatePackageStatusJob {
   @OnQueueCompleted()
   async triggerNotification(job: Job<Payload>) {
     if (job.data) {
-      const { status, code } = job.data;
-
-      this.logger.debug('enviando notifição');
-      this.notificationService.createNotification(
-        {
-          description: status,
-          title: `O pacote ${code} mudou o status`,
-        },
-        Events.packageUpdatedTrack,
-      );
     }
   }
 

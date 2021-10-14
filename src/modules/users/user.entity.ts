@@ -1,8 +1,17 @@
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Schema, Prop, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Field, ObjectType, GraphQLISODateTime, ID } from '@nestjs/graphql';
 import * as mongoose from 'mongoose';
 
 import { Package } from '../packages/package.entity';
+
+@ObjectType()
+export class AppToken {
+  @Field()
+  type: string;
+
+  @Field()
+  data: string;
+}
 
 @Schema({
   timestamps: true,
@@ -32,9 +41,14 @@ class User extends mongoose.Document {
   @Field(() => GraphQLISODateTime)
   updatedAt: Date;
 
-  @Prop({ required: false })
-  @Field({ nullable: true })
-  appToken?: string;
+  @Prop(
+    raw({
+      type: { type: String },
+      data: { type: String },
+    }),
+  )
+  @Field(() => AppToken)
+  appToken?: AppToken;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Package' }] })
   @Field(() => [Package])

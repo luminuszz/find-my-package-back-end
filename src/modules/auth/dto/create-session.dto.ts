@@ -1,5 +1,14 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+
+@InputType()
+class AppTokenInput {
+  @Field({ nullable: true })
+  type: string;
+
+  @Field({ nullable: true })
+  data: string;
+}
 
 @InputType()
 export class CreateSessionDTO {
@@ -11,4 +20,8 @@ export class CreateSessionDTO {
   @Field()
   @IsNotEmpty()
   password: string;
+
+  @Field(() => AppTokenInput)
+  @IsOptional()
+  appToken: AppTokenInput;
 }

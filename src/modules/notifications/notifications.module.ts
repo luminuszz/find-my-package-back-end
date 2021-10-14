@@ -4,7 +4,6 @@ import { PackageAppListener } from './listeners/package-app.listener';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotificationSchema, Notification } from './notification.entity';
 import { HttpModule } from '@nestjs/axios';
-import { PackageModule } from '../packages/package.module';
 
 @Module({
   imports: [
@@ -20,8 +19,6 @@ import { PackageModule } from '../packages/package.module';
         'Content-Type': 'application/json',
       },
     }),
-
-    PackageModule,
   ],
   providers: [NotificationsService, PackageAppListener],
   exports: [NotificationsService],

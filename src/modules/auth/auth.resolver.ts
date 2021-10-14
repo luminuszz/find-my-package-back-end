@@ -10,7 +10,9 @@ export class AuthResolver {
 
   @Public()
   @Mutation(() => SessionLoginResponse)
-  async login(@Args('createSession') { password, email }: CreateSessionDTO) {
-    return this.authService.login(email, password);
+  async login(
+    @Args('createSession') { password, email, appToken }: CreateSessionDTO,
+  ) {
+    return this.authService.login(email, password, appToken);
   }
 }
